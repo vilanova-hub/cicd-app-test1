@@ -43,7 +43,7 @@ function App() {
   }
 
   if (!quiz.length)
-    return <h3>Carregando...</h3>
+    return <h3>Carregandooo...</h3>
 
   return (
     <div className='App'>
