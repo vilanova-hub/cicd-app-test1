@@ -1,27 +1,24 @@
-# Official Node JS runtime as a parent image
-FROM node:10.16.0-alpine
-
-# Set the working directory to ./app
+FROM node:14-alpine AS builder
+ENV NODE_ENV production
+# Add a work directory
 WORKDIR /app
+# Cache and Install dependencies
+COPY package.json .
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package.json ./
+RUN npm install --production
+# Copy app files
+COPY . .
+# Build the app
+RUN npm run build
 
-RUN apk add --no-cache git
-
-# Install any needed packages
-RUN npm install
-
-# Audit fix npm packages
-RUN npm audit fix
-
-# Bundle app source
-COPY . /app
-
-# Make port 3000 available to the world outside this container
-EXPOSE 3000
-
-# Run app.js when the container launches
-CMD ["npm", "start"]
+# Bundle static assets with nginx
+FROM nginx:1.21.0-alpine as production
+ENV NODE_ENV production
+# Copy built assets from builder
+COPY --from=builder /app/build /usr/share/nginx/html
+# Add your nginx.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Expose port
+EXPOSE 80
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]
