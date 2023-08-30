@@ -48,7 +48,7 @@ function App() {
   return (
     <div className='App'>
 
-      <h1 className='heading'>Fabão das Patraa</h1>
+      <h1 className='heading'>CICD</h1>
       <h2 style={{ textAlign: "center", padding: "15px", color: "yellow" }}> {score}/{quiz.length} </h2>
 
       <QuestionCard
