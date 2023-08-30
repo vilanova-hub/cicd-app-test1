@@ -8,5 +8,3 @@ services:
       - "traefik.http.routers.app1.entrypoints=websecure"
       - "traefik.http.routers.app1.tls=true"
       - "traefik.http.routers.app1.tls.certresolver=letsencrypt"
-    ports:
-      - "80:3000"
