@@ -1,7 +1,12 @@
 version: '3.8'
 services:
   # React.js app service
-  react_app:
+  app1:
     image: devsidnei/quiz-react-app:latest
+    labels:
+      - "traefik.http.routers.app1.rule=Host(`app1.integrab2b.com.br`)"
+      - "traefik.http.routers.app1.entrypoints=websecure"
+      - "traefik.http.routers.app1.tls=true"
+      - "traefik.http.routers.app1.tls.certresolver=letsencrypt"
     ports:
-      - "3000:3000"
+      - "80:3000"
